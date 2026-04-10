@@ -1,0 +1,26 @@
+{
+  "name": "Docker in Docker",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+
+  // Forward port 8080 so you can preview in your local browser
+  "forwardPorts": [8080],
+
+  // Label it nicely in VS Code's Ports panel
+  "portsAttributes": {
+    "8080": {
+      "label": "Website Preview",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // Install Docker Compose inside the container on creation
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y docker-compose-plugin"
+}
