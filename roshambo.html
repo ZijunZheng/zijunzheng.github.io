@@ -16,23 +16,66 @@
     <hr>
     <h2>Pick One!</h2>
     <div class="form-group">
-      <button id="Rock" onclick="shoot(this.id)" class="btn btn-default">Rock</button>
-      <button id="Paper" onclick="shoot(this.id)" class="btn btn-default">Paper</button>
-      <button id="Scissors" onclick="shoot(this.id)" class="btn btn-default">Scissors</button>
+      <button id="rock" onclick="shoot(this.id)" class="btn btn-default">Rock</button>
+      <button id="paper" onclick="shoot(this.id)" class="btn btn-default">Paper</button>
+      <button id="scissors" onclick="shoot(this.id)" class="btn btn-default">Scissors</button>
     </div>
     <hr>
     <div class="jumbotron">
       <div id="output">
+        <p>Start a new game!</p>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
+      var gameInProgress = false;
+      var wins;
+      var losses;
+
       function start(){
-        document.getElementById("output").innerHTML = "New Game! <br>";
+        document.getElementById("output").innerHTML = "You started a new game!<br>";
+        gameInProgress = true;
+        wins = 0;
+        losses = 0;
       }
       function shoot(hand){
-        document.getElementById("output").innerHTML += `You choose ${hand} <br>`;
-        return;
+        if (!gameInProgress) {
+          document.getElementById("output").innerHTML += `Start new game to play!<br>`;
+          return;
+        }
+        document.getElementById("output").innerHTML += `You chose ${hand}! `;
+        var random = Math.floor(Math.random() * 3) + 1;
+        var compHand;
+        if (random == 1) {
+          compHand = "rock";
+        } else if (random == 2) {
+          compHand = "paper";
+        } else {
+          compHand = "scissors";
+        }
+        document.getElementById("output").innerHTML += `The computer chose ${compHand}!<br>`;
+
+        if (hand == compHand) {
+          document.getElementById("output").innerHTML += `It's a tie! Try again!<br>`;
+        } else if ((compHand == "rock" && hand == "paper") || 
+                    (compHand == "paper" && hand == "scissors") || 
+                    (compHand == "scissors" && hand == "rock")) {
+          document.getElementById("output").innerHTML += `You won this round!<br>`;
+          wins++;
+        } else {
+          document.getElementById("output").innerHTML += `You lost this round!<br>`;
+          losses++;
+        }
+        if (wins == 2 || losses == 2) {
+          document.getElementById("output").innerHTML += `Game over! `;
+          if (wins == 2) {
+            document.getElementById("output").innerHTML += `You won! `;
+          } else {
+            document.getElementById("output").innerHTML += `You lost! `;
+          }
+          document.getElementById("output").innerHTML += `Total score: ${wins} wins and ${losses}.<br>`;
+          gameInProgress = false;
+        }
       }
     </script>
   </body>
